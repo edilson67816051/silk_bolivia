@@ -57,11 +57,17 @@
                                         placeholder="Sub Total" value="{{ $costo_unit . ' bs.' }}" disabled>
                                 </div>
                             </div>
-                            <div class="col-lg-2">
+                            <div class="col-lg-1">
                                 <div class="form-group">
                                     <label for="sub_total">Valor total</label>
                                     <input id="sub_total" class="form-control" type="text" name="sub_total"
                                         placeholder="Sub Total" value="{{ $valor_total . ' bs.' }}" disabled>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-1">
+                                <div class="form-group">
+                                    <button class="btn btn-primary" wire:click = 'export'>exel</button>
                                 </div>
                             </div>
                             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#productoModal">

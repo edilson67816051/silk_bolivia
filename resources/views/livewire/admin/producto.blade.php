@@ -9,6 +9,10 @@
                 Nuevo Producto
             </a>
 
+            <button class="btn btn-success" wire:click = ' export'>
+                export Exel
+            </button>
+
             <!-- Producto Modal-->
             <div class="modal fade" id="productoModal" wire:ignore.self tabindex="-1" role="dialog"
                 aria-labelledby="exampleModalLabel" aria-hidden="true">

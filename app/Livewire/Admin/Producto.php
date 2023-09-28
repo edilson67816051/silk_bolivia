@@ -2,8 +2,10 @@
 
 namespace App\Livewire\Admin;
 
+use App\Exports\ProductoExport;
 use App\Models\Producto as ModelsProducto;
 use Livewire\Component;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Producto extends Component
 {
@@ -20,6 +22,10 @@ class Producto extends Component
     {
         $this->productos = ModelsProducto::all();
         return view('livewire.admin.producto')->layout('layouts.admin');
+    }
+
+    public function export(){
+        return Excel::download(new ProductoExport,'producto.xlsx');
     }
 
     

@@ -2,12 +2,13 @@
 
 namespace App\Livewire\Inventario;
 
-use App\Models\Entrada_salida;
 use Livewire\Component;
 use App\Models\Producto;
-use Illuminate\Validation\Rules\Exists;
+use App\Models\Entrada_salida;
+use App\Exports\InventarioExport;
 
-use function PHPUnit\Framework\isNull;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Validation\Rules\Exists;
 
 class InventarioIndex extends Component
 {
@@ -140,4 +141,9 @@ class InventarioIndex extends Component
 
         return view('livewire.inventario.inventario-index')->layout('layouts.admin');
     }
+
+    public function export(){
+        return Excel::download(new InventarioExport,'inventario.xlsx');
+    }
+
 }

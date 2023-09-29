@@ -142,8 +142,8 @@ class InventarioIndex extends Component
         return view('livewire.inventario.inventario-index')->layout('layouts.admin');
     }
 
-    public function export(){
-        return Excel::download(new InventarioExport,'inventario.xlsx');
+    public function export($id){
+        return Excel::download(new InventarioExport($id),'inventario.xlsx');
     }
 
 }

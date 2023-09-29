@@ -67,7 +67,7 @@
 
                             <div class="col-lg-1">
                                 <div class="form-group">
-                                    <button class="btn btn-primary" wire:click = 'export'>exel</button>
+                                    <button class="btn btn-primary" wire:click = 'export({{$search}})'>exel</button>
                                 </div>
                             </div>
                             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#productoModal">

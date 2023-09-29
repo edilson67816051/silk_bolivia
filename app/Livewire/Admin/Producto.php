@@ -6,84 +6,91 @@ use App\Exports\ProductoExport;
 use App\Models\Producto as ModelsProducto;
 use Livewire\Component;
 use Maatwebsite\Excel\Facades\Excel;
+use Livewire\WithPagination;
 
 class Producto extends Component
 {
+    use WithPagination;
     public $productos;
-    
-    public $nombreproducto ="";
-    public $unidad ="";
+
+    public $nombreproducto = "";
+    public $unidad = "";
     public $id;
 
     public $id_select;
-    
-    
+
+
     public function render()
     {
-        $this->productos = ModelsProducto::all();
-        return view('livewire.admin.producto')->layout('layouts.admin');
+        return view('livewire.admin.producto',[
+            'product' => ModelsProducto::orderBy('id', 'asc')->paginate(5)
+        ])->layout('layouts.admin');
     }
 
-    public function export(){
-        return Excel::download(new ProductoExport,'producto.xlsx');
+    public function export()
+    {
+        return Excel::download(new ProductoExport, 'producto.xlsx');
     }
 
-    
 
-    public function store(){
+
+    public function store()
+    {
 
         $this->validate([
             'nombreproducto' => 'required',
             'unidad' => 'required',
         ]);
-        
+
         $produc = new ModelsProducto();
-        
+
         $produc->producto = $this->nombreproducto;
         $produc->unidad_medida = $this->unidad;
         $produc->save();
         $this->clear();
-        
     }
-    public function edit($productoId){
+    public function edit($productoId)
+    {
         $this->id = $productoId;
-        
-        $prod = ModelsProducto::find($productoId);       
+
+        $prod = ModelsProducto::find($productoId);
         $this->nombreproducto = $prod->producto;
         $this->unidad = $prod->unidad_medida;
-        
     }
 
-    public function update(){
+    public function update()
+    {
         $this->validate([
             'nombreproducto' => 'required',
             'unidad' => 'required',
         ]);
-        $produc = ModelsProducto::find($this->id); 
+        $produc = ModelsProducto::find($this->id);
         $produc->producto = $this->nombreproducto;
         $produc->unidad_medida = $this->unidad;
         $produc->update();
     }
 
-    public function select($id){
-        $this->id_select = $id;       
-        $prod = ModelsProducto::find($id);       
+    public function select($id)
+    {
+        $this->id_select = $id;
+        $prod = ModelsProducto::find($id);
         $this->nombreproducto = $prod->producto;
         $this->unidad = $prod->unidad_medida;
     }
 
-    public function clear(){
+    public function clear()
+    {
         $this->nombreproducto = '';
         $this->unidad = '';
-        $this->id_select=null; 
+        $this->id_select = null;
     }
 
-    public function delete(){
-        if($this->id_select){
+    public function delete()
+    {
+        if ($this->id_select) {
             $prod = ModelsProducto::find($this->id_select);
             $prod->delete();
         }
         $this->clear();
-       
     }
 }

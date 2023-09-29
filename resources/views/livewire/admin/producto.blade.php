@@ -9,7 +9,7 @@
                 Nuevo Producto
             </a>
 
-            <button class="btn btn-success" wire:click = ' export'>
+            <button class="btn btn-success" wire:click=' export'>
                 export Exel
             </button>
 
@@ -30,7 +30,7 @@
                                 <label for="exampleFormControlInput1" class="form-label">Producto</label>
                                 <input type="text" class="form-control" wire:model.lazy="nombreproducto"
                                     id="nombreproducto" placeholder="Producto...">
-                                    @error('nombreproducto')
+                                @error('nombreproducto')
                                     <small class="text-danger">
                                         {{ $message }}
                                     </small>
@@ -41,7 +41,7 @@
                                 <label for="exampleFormControlInput1" class="form-label">Unidad Medida</label>
                                 <input type="email" class="form-control" id="unidad" wire:model.lazy="unidad"
                                     placeholder="medida...">
-                                    @error('unidad')
+                                @error('unidad')
                                     <small class="text-danger">
                                         {{ $message }}
                                     </small>
@@ -50,7 +50,8 @@
 
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-danger" type="button" wire:click="clear" data-dismiss="modal">Salir</button>
+                            <button class="btn btn-danger" type="button" wire:click="clear"
+                                data-dismiss="modal">Salir</button>
                             <button type="submit" class="btn btn-primary" wire:click="store">Guardar</button>
 
                         </div>
@@ -79,8 +80,8 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        @if (!empty($productos))
-                            @foreach ($productos as $producto)
+                        @if (!empty($product))
+                            @foreach ($product as $producto)
                                 <tr>
                                     <td>{{ $producto->id }}</td>
                                     <td>{{ $producto->producto }}</td>
@@ -104,6 +105,7 @@
 
                     </tbody>
                 </table>
+                <div class="float-end"> {{ $product->links() }}</div>
             </div>
         </div>
 
@@ -123,16 +125,17 @@
                     <div class="modal-body">
 
                         <div class="mb-3">
-                            <label for="" class="from-label">Nombre: {{$nombreproducto}}</label>
-                         
+                            <label for="" class="from-label">Nombre: {{ $nombreproducto }}</label>
+
                         </div>
                         <div class="mb-3">
-                            <label for="" class="from-label">Unidad: {{$nombreproducto}}</label>
+                            <label for="" class="from-label">Unidad: {{ $nombreproducto }}</label>
                         </div>
 
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button"  wire:click="clear" data-dismiss="modal">Cancelar</button>
+                        <button class="btn btn-secondary" type="button" wire:click="clear"
+                            data-dismiss="modal">Cancelar</button>
                         <button type="submit" class="btn btn-danger" wire:click="delete()"
                             data-dismiss="modal">Delete</button>
                     </div>
@@ -155,7 +158,7 @@
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Producto</label>
                             <input type="text" class="form-control" wire:model.lazy="nombreproducto"
-                                id="nombreproducto" placeholder="Producto..." >
+                                id="nombreproducto" placeholder="Producto...">
                             @error('nombreproducto')
                                 <small class="text-danger">
                                     {{ $message }}
@@ -176,7 +179,8 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-danger" type="button" wire:click="clear" data-dismiss="modal">Salir</button>
+                        <button class="btn btn-danger" type="button" wire:click="clear"
+                            data-dismiss="modal">Salir</button>
                         <button type="submit" class="btn btn-primary" wire:click="update">Guardar Cambios</button>
 
                     </div>

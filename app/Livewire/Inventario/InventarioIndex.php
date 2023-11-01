@@ -30,10 +30,11 @@ class InventarioIndex extends Component
     public function searchProduct()
     {
         if (!empty($this->search)) {
-            $this->results = Producto::orderby('producto', 'asc')
+            $this->results = Producto::orderby('codigo', 'asc')
                 ->select('*')
                 ->where('id', 'like', '%' . $this->search . '%')
-                ->orwhere('producto', 'like', '%' . $this->search . '%')
+                ->orwhere('codigo', 'like', '%' . $this->search . '%')
+                ->orwhere('catalago', 'like', '%' . $this->search . '%')
                 ->take(6)
                 ->get();
             $this->showlist = true;
@@ -46,7 +47,7 @@ class InventarioIndex extends Component
         $result = Producto::select('*')
             ->where('id', $id)
             ->first();
-        $this->search = $result->id;
+        $this->search = $id;
         $this->product = $result;
         $this->showlist = false;
 

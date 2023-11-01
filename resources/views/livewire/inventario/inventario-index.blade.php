@@ -9,7 +9,7 @@
                     <div class="row">
                         <div class="col-lg-2">
                             <div class="form-group">
-                                <label for="search">Buscar</label>
+                                <label for="search">Buscar Codigo</label>
                                 <div class="select-wrapper">
                                     <input id="search" wire:model='search' wire:keyup='searchProduct' type="text"
                                         class="form-control select-input" placeholder="Selecciona un producto">
@@ -19,7 +19,7 @@
                                                 @foreach ($results as $result)
                                                     <li class="list-group-item select-option"
                                                         wire:click='getProduct({{ $result->id }})'>
-                                                        {{ $result->id . ' ' . $result->producto }}</li>
+                                                        {{ $result->codigo . ' ' . $result->catalago }}</li>
                                                 @endforeach
                                             @endif
                                         </ul>
@@ -28,26 +28,24 @@
                             </div>
                         </div>
                         @if (!empty($product))
+                           
                             <div class="col-lg-2">
                                 <div class="form-group">
-                                    <label for="cantidad">Nombre</label>
-                                    <input id="cantidad" class="form-control" type="text"
-                                        value="{{ $product->producto }}" name="cantidad" placeholder="Nombre" disabled
-                                        onkeyup="calcularPrecio(event)">
+                                    <label for="precio">Catalago</label>
+                                    <input id="precio" class="form-control" type="text" name="precio"
+                                        value="{{ $product->catalago }} {{ $product->codigo }}" disabled>
                                 </div>
                             </div>
                             <div class="col-lg-2">
                                 <div class="form-group">
-                                    <label for="precio">Unidad Medida</label>
-                                    <input id="precio" class="form-control" type="text" name="precio"
-                                        value="{{ $product->unidad_medida }}" disabled>
+                                    <img src="{{ asset('storage/' . $product->img) }}" class="img-fluid">
                                 </div>
                             </div>
                             <div class="col-lg-2">
                                 <div class="form-group">
                                     <label for="precio">Cantidad</label>
                                     <input id="precio" class="form-control" type="text" name="precio"
-                                        value="{{ $cantidad_total . ' /' . $product->unidad_medida }}" disabled>
+                                        value="{{ $cantidad_total }}" disabled>
                                 </div>
                             </div>
                             <div class="col-lg-2">
@@ -135,7 +133,7 @@
         </div>
     </div>
 
-    <!-- Producto Modal-->
+    <!-- Modal para poner nuevos Registros Ingreso y Egreso-->
     <div class="modal fade" id="productoModal" wire:ignore.self tabindex="-1" role="dialog"
         aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -153,7 +151,6 @@
                             aria-label="Default select example">
                             <option value="entrada">Entrada</option>
                             <option value="salida">Salida</option>
-                            <option value="devolucion">Devolucion</option>
                         </select>
                         @error('tipo')
                             <small class="text-danger">

@@ -7,6 +7,8 @@ use App\Livewire\Inventario\Create;
 use App\Livewire\Inventario\InventarioIndex;
 use Illuminate\Support\Facades\Route;
 
+use App\Livewire\Admin\Catalago;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,12 +24,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/prueba',[InventarioIndex::class, 'insert']);
+Route::get('/prueba', [InventarioIndex::class, 'insert']);
 
 //Route::get('/prueba',AdminIndex::class);
 
-Route::get('/dashboard',AdminIndex::class)
-->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', AdminIndex::class)
+    ->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -35,10 +37,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/producto',Producto::class)
-->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/producto', Producto::class)
+    ->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/inventario',InventarioIndex::class)
-->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/inventario', InventarioIndex::class)
+    ->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/catalago', Catalago::class)
+    ->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__ . '/auth.php';

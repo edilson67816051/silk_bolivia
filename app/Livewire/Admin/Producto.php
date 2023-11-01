@@ -3,19 +3,26 @@
 namespace App\Livewire\Admin;
 
 use App\Exports\ProductoExport;
+use App\Models\Catalago;
+use App\Models\Entrada_salida;
 use App\Models\Producto as ModelsProducto;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Maatwebsite\Excel\Facades\Excel;
 use Livewire\WithPagination;
+use Livewire\WithFileUploads;
 
 class Producto extends Component
 {
+    use WithFileUploads;
     use WithPagination;
     public $productos;
 
-    public $nombreproducto = "";
-    public $unidad = "";
+    public $codigo = "";
+    public $catalago = "";
+    public $image;
     public $id;
+    public $url;
 
     public $id_select;
 
@@ -23,7 +30,8 @@ class Producto extends Component
     public function render()
     {
         return view('livewire.admin.producto',[
-            'product' => ModelsProducto::orderBy('id', 'asc')->paginate(5)
+            'product' => ModelsProducto::orderBy('id', 'asc')->paginate(5),
+            'catalagos' =>Catalago::all()
         ])->layout('layouts.admin');
     }
 
@@ -34,18 +42,19 @@ class Producto extends Component
 
 
 
-    public function store()
+    public function save()
     {
-
         $this->validate([
-            'nombreproducto' => 'required',
-            'unidad' => 'required',
+            'codigo' => 'required',
+            'catalago' => 'required',
         ]);
 
-        $produc = new ModelsProducto();
+        $url = $this->image->store('productos', 'public');
 
-        $produc->producto = $this->nombreproducto;
-        $produc->unidad_medida = $this->unidad;
+        $produc = new ModelsProducto();
+        $produc->catalago = $this->catalago;
+        $produc->codigo = $this->codigo;
+        $produc->img = $url;
         $produc->save();
         $this->clear();
     }
@@ -54,19 +63,27 @@ class Producto extends Component
         $this->id = $productoId;
 
         $prod = ModelsProducto::find($productoId);
-        $this->nombreproducto = $prod->producto;
-        $this->unidad = $prod->unidad_medida;
+        $this->catalago = $prod->catalago;
+        $this->codigo = $prod->codigo;
+        $this->url = $prod->img;
     }
+
+    
 
     public function update()
     {
         $this->validate([
-            'nombreproducto' => 'required',
-            'unidad' => 'required',
+            'codigo' => 'required',
+            'catalago' => 'required',
         ]);
         $produc = ModelsProducto::find($this->id);
-        $produc->producto = $this->nombreproducto;
-        $produc->unidad_medida = $this->unidad;
+        $produc->catalago = $this->catalago;
+        $produc->codigo = $this->codigo;
+        if($this->image != null){
+            Storage::disk('public')->delete($produc->img); 
+            $url = $this->image->store('productos', 'public');
+            $produc->img = $url;
+        }
         $produc->update();
     }
 
@@ -74,14 +91,16 @@ class Producto extends Component
     {
         $this->id_select = $id;
         $prod = ModelsProducto::find($id);
-        $this->nombreproducto = $prod->producto;
-        $this->unidad = $prod->unidad_medida;
+        $this->catalago = $prod->catalago;
+        $this->codigo = $prod->codigo;
+        $this->url = $prod->img;
     }
 
     public function clear()
     {
-        $this->nombreproducto = '';
-        $this->unidad = '';
+        $this->codigo = '';
+        $this->catalago = '';
+        $this->image = null;
         $this->id_select = null;
     }
 
@@ -89,8 +108,19 @@ class Producto extends Component
     {
         if ($this->id_select) {
             $prod = ModelsProducto::find($this->id_select);
+            
+            Storage::disk('public')->delete($prod->img); 
             $prod->delete();
+            $entrada_salida = Entrada_salida::where('producto_id',$this->id_select)->get();
+            foreach($entrada_salida as $item){
+                $item->delete();
+            }
+            
         }
+        
+       
+
+        
         $this->clear();
     }
 }

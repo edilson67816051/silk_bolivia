@@ -102,6 +102,7 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Productos</h6>
+                        <a class="collapse-item" href="{{ url('/catalago') }}">Catalago</a>
                         <a class="collapse-item" href="{{ url('/producto') }}">Productos</a>
                         <a class="collapse-item" href="{{ url('/inventario') }}">Inventario</a>
                     </div>
@@ -144,8 +145,8 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span
-                                    class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }} <br> {{ Auth::user()->email }}</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }} <br>
+                                    {{ Auth::user()->email }}</span>
                                 <img class="img-profile rounded-circle"
                                     src="{{ asset('assets/admin/img/undraw_profile.svg') }}">
                             </a>

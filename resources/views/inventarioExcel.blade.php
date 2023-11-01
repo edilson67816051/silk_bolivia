@@ -2,11 +2,11 @@
     <thead>
         <tr>
             <th></th>
-            <th>Producto : {{$producto->producto}}</th>
+            <th>Codigo : {{$producto->codigo}}</th>
             <th></th>
             <th></th>         
             <th></th>
-            <th>Unidad Medida : {{$producto->unidad_medida}}</th>
+            <th>Catalago : {{$producto->catalago}}</th>
             <th></th>
             <th></th>
             <th></th>
